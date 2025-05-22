@@ -22,7 +22,8 @@ const spinalOccupantService = new OccupantService();
 
 export {
   spinalOccupantService,
-  CONSTANTS
+  CONSTANTS,
+  IOccupant
 };
 
 export default spinalOccupantService;
