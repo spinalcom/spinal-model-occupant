@@ -71,7 +71,7 @@ export default class OccupantService {
     }
     const occupantModel = new OccupantModel(occupantInfo);
     const occupantNode = new SpinalNode(
-      `${occupantInfo.first_name}_${occupantInfo.last_name}`,
+      occupantInfo.occupantId,
       CONSTANTS.OCCUPANT_TYPE,
       occupantModel
     );

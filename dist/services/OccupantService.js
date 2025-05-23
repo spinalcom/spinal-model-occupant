@@ -60,7 +60,7 @@ class OccupantService {
                 throw new Error(`Context ${contextName} not found`);
             }
             const occupantModel = new OccupantModel_1.default(occupantInfo);
-            const occupantNode = new spinal_env_viewer_graph_service_1.SpinalNode(`${occupantInfo.first_name}_${occupantInfo.last_name}`, CONSTANTS.OCCUPANT_TYPE, occupantModel);
+            const occupantNode = new spinal_env_viewer_graph_service_1.SpinalNode(occupantInfo.occupantId, CONSTANTS.OCCUPANT_TYPE, occupantModel);
             yield context.addChildInContext(occupantNode, CONSTANTS.CONTEXT_OCCUPANT_RELATION, spinal_env_viewer_graph_service_1.SPINAL_RELATION_LST_PTR_TYPE, context);
             return occupantNode;
         });
