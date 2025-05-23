@@ -44,7 +44,7 @@ export default class OccupantService {
 
   public async createOrGetContext(contextName: string): Promise<SpinalNode<any>> {
     const alreadyExists = await this.getContext(contextName);
-    if( alreadyExists?.getType().get() != CONSTANTS.CONTEXT_TYPE) {
+    if( alreadyExists && alreadyExists.getType().get() != CONSTANTS.CONTEXT_TYPE) {
       throw new Error(`Context ${contextName} is not of type ${CONSTANTS.CONTEXT_TYPE}`);
     }
     if (alreadyExists) {

@@ -42,7 +42,7 @@ class OccupantService {
     createOrGetContext(contextName) {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExists = yield this.getContext(contextName);
-            if ((alreadyExists === null || alreadyExists === void 0 ? void 0 : alreadyExists.getType().get()) != CONSTANTS.CONTEXT_TYPE) {
+            if (alreadyExists && alreadyExists.getType().get() != CONSTANTS.CONTEXT_TYPE) {
                 throw new Error(`Context ${contextName} is not of type ${CONSTANTS.CONTEXT_TYPE}`);
             }
             if (alreadyExists) {
