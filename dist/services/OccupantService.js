@@ -39,9 +39,12 @@ class OccupantService {
             return contexts.find((context) => context.getName().get() === contextName);
         });
     }
-    createContext(contextName) {
+    createOrGetContext(contextName) {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExists = yield this.getContext(contextName);
+            if ((alreadyExists === null || alreadyExists === void 0 ? void 0 : alreadyExists.getType().get()) != CONSTANTS.CONTEXT_TYPE) {
+                throw new Error(`Context ${contextName} is not of type ${CONSTANTS.CONTEXT_TYPE}`);
+            }
             if (alreadyExists) {
                 console.warn(`Context ${contextName} already exists`);
                 return alreadyExists;
@@ -63,6 +66,54 @@ class OccupantService {
             const occupantNode = new spinal_env_viewer_graph_service_1.SpinalNode(occupantInfo.occupantId, CONSTANTS.OCCUPANT_TYPE, occupantModel);
             yield context.addChildInContext(occupantNode, CONSTANTS.CONTEXT_OCCUPANT_RELATION, spinal_env_viewer_graph_service_1.SPINAL_RELATION_LST_PTR_TYPE, context);
             return occupantNode;
+        });
+    }
+    deleteAllOccupants(contextName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const context = yield this.getContext(contextName);
+            if (!context) {
+                throw new Error(`Context ${contextName} not found`);
+            }
+            const occupants = yield context.getChildren();
+            for (const occupant of occupants) {
+                yield occupant.removeFromGraph();
+            }
+        });
+    }
+    deleteOccupant(contextName, occupantId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const context = yield this.getContext(contextName);
+            if (!context) {
+                throw new Error(`Context ${contextName} not found`);
+            }
+            const occupant = yield spinal_env_viewer_graph_service_1.SpinalGraphService.getNode(occupantId);
+            if (!occupant) {
+                throw new Error(`Occupant ${occupantId} not found`);
+            }
+            yield occupant.removeFromGraph();
+            console.log(`Occupant ${occupantId} has been deleted from context ${contextName}`);
+        });
+    }
+    getOccupants(contextName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const context = yield this.getContext(contextName);
+            if (!context) {
+                throw new Error(`Context ${contextName} not found`);
+            }
+            const occupants = yield context.getChildren();
+            return occupants.filter((occupant) => {
+                return occupant.getType().get() === CONSTANTS.OCCUPANT_TYPE;
+            });
+        });
+    }
+    getOccupant(contextName, occupantId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const context = yield this.getContext(contextName);
+            if (!context) {
+                throw new Error(`Context ${contextName} not found`);
+            }
+            const occupants = yield context.getChildren();
+            return occupants.find((occupant) => occupant.getName().get() === occupantId);
         });
     }
 }

@@ -9,6 +9,10 @@ export default class OccupantService {
      */
     getContexts(): Promise<SpinalNode<any>[]>;
     getContext(contextName: string): Promise<SpinalNode<any> | undefined>;
-    createContext(contextName: string): Promise<SpinalNode<any>>;
+    createOrGetContext(contextName: string): Promise<SpinalNode<any>>;
     addOccupant(occupantInfo: IOccupant, contextName: string): Promise<SpinalNode<any>>;
+    deleteAllOccupants(contextName: string): Promise<void>;
+    deleteOccupant(contextName: string, occupantId: string): Promise<void>;
+    getOccupants(contextName: string): Promise<SpinalNode<any>[]>;
+    getOccupant(contextName: string, occupantId: string): Promise<SpinalNode<any> | undefined>;
 }
